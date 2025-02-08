@@ -3,7 +3,7 @@ import { BrowserRouter, Routes , Route} from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
-import SignOut from './pages/SignOut'
+import SignUp from './pages/SignUp'
 import Projects from './pages/Projects'
 import About from './pages/About'
 import Header from './components/Header'
@@ -12,14 +12,14 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter classname="light">
         <Header/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-out" element={<SignOut />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
