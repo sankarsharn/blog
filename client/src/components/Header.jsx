@@ -4,14 +4,15 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
 
 export default function Header() {
-    const path = useLocation().pathname;
+  const path = useLocation().pathname;
+
   return (
     <Navbar className='border-b-2'>
       <Link
         to='/'
         className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
       >
-        <span className='px-2 py-1 bg-gradient-to-r from-pink-500 via-pinl-700 to-pink-900 rounded-lg text-white'>
+        <span className='px-2 py-1 bg-gradient-to-r from-pink-500 via-pink-700 to-pink-900 rounded-lg text-white'>
           LDS BLOG
         </span>
       </Link>
@@ -36,14 +37,14 @@ export default function Header() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active={path === "/"} as={'div'}>
-          <Link to='/'>Home</Link>
+        <Navbar.Link as={Link} to="/" active={path === "/"}>
+          Home
         </Navbar.Link>
-        <Navbar.Link active={path === "/about"} as={'div'}>
-          <Link to='/about'>About</Link>
+        <Navbar.Link as={Link} to="/about" active={path === "/about"}>
+          About
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={'div'}>
-          <Link to='/projects'>Projects</Link>
+        <Navbar.Link as={Link} to="/projects" active={path === "/projects"}>
+          Projects
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
