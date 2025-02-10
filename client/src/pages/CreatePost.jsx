@@ -30,7 +30,7 @@ export default function CreatePost() {
             return;
           }
           setPublishError(null);
-          navigate(`/post/${data.slug}`);
+          navigate('/dashboard?tab=posts');
         } catch (error) {
           setPublishError('Something went wrong');
         }
