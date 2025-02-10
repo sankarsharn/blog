@@ -17,8 +17,12 @@ const UserSchema = new mongoose.Schema({
     },
     profilePicture: {
             type: String,
-            default: "https://www.stickpng.com/img/icons-logos-emojis/users/young-user-icon"
+            default: "https://in.pinterest.com/pin/1057712662474908846/"
     },
+    isAdmin: {
+                type: Boolean,
+                default: false
+    }
 } , { timestamps: true });
 
 const User = mongoose.model('User' , UserSchema);
