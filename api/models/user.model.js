@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema({
             type: String,
             required: true
     },
+    profilePicture: {
+            type: String,
+            default: "https://www.stickpng.com/img/icons-logos-emojis/users/young-user-icon"
+    },
 } , { timestamps: true });
 
 const User = mongoose.model('User' , UserSchema);
