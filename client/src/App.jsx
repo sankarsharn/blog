@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes , Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
@@ -8,6 +8,8 @@ import Projects from './pages/Projects'
 import About from './pages/About'
 import Header from './components/Header'
 import PrivateRoute from './components/PrivateRoute'
+import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute'
+import CreatePost from './pages/CreatePost'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,7 +17,7 @@ function App() {
   return (
     <>
       <BrowserRouter classname="light">
-        <Header/>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -23,7 +25,10 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
+          <Route element={<OnlyAdminPrivateRoute />}>
+            <Route path='/create-post' element={<CreatePost />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, ModalBody, TextInput } from 'flowbite-react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   updateStart,
   updateSuccess,
@@ -11,9 +12,10 @@ import {
   signoutSuccess,
 } from '../redux/user/userSlice';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 export default function DashProfile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +56,7 @@ export default function DashProfile() {
       setUpdateUserError(error.message);
     }
   };
-
+  
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
@@ -88,7 +90,7 @@ export default function DashProfile() {
       console.log(error.message);
     }
   };
-
+  
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
       <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
@@ -113,9 +115,25 @@ export default function DashProfile() {
           placeholder='password'
           onChange={handleChange}
         />
-        <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-          Update
+        <Button
+          type='submit'
+          gradientDuoTone='purpleToBlue'
+          outline
+          disabled={loading}
+        >
+          {loading ? 'Loading...' : 'Update'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button
+              type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className='text-red-500 flex justify-between mt-5'>
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>
