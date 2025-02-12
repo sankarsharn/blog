@@ -1,6 +1,7 @@
 import { Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import PostCard from '../components/PostCard';
 import CommentSection from '../components/CommentSection';
 
 export default function PostPage() {
@@ -8,6 +9,7 @@ export default function PostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
+  const [recentPosts, setRecentPosts] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -33,6 +35,21 @@ export default function PostPage() {
     fetchPost();
   }, [postSlug]);
 
+  useEffect(() => {
+    try {
+      const fetchRecentPosts = async () => {
+        const res = await fetch(`/api/post/getposts?limit=3`);
+        const data = await res.json();
+        if (res.ok) {
+          setRecentPosts(data.posts);
+        }
+      };
+      fetchRecentPosts();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
   if (loading)
     return (
       <div className='flex justify-center items-center min-h-screen'>
@@ -55,11 +72,19 @@ export default function PostPage() {
       <img src={post?.image} alt={post?.title} className='mt-10 p-3 max-h-[600px] w-full object-cover' />
       <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-        <span className='italic'>{post?.content?.length / 1000} mins read</span>
+        <span className='italic'>{Math.ceil(post?.content?.length / 1000)} mins read</span>
       </div>
       <div className='p-3 max-w-2xl mx-auto w-full post-content' dangerouslySetInnerHTML={{ __html: post?.content }}></div>
 
+      <div className='flex flex-col justify-center items-center mb-5'>
+        <h1 className='text-xl mt-5'>Recent articles</h1>
+        <div className='flex flex-wrap gap-5 mt-5 justify-center'>
+          {recentPosts &&
+            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+        </div>
+      </div>
       {post && <CommentSection postId={post._id} />}
+
     </main>
   );
 }
