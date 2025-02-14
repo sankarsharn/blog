@@ -20,28 +20,37 @@ export default function DashProfile() {
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
+  const [image, setImage] = useState(null);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-    if (Object.keys(formData).length === 0) {
+    if (Object.keys(formData).length === 0 && !image) {
       setUpdateUserError('No changes made');
       return;
     }
     try {
       dispatch(updateStart());
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach((key) => {
+        formDataToSend.append(key, formData[key]);
+      });
+      if (image) {
+        formDataToSend.append('profilePicture', image);
+      }
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -94,6 +103,22 @@ export default function DashProfile() {
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
       <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
+      <div className='flex justify-center mb-5'>
+        <label htmlFor='profile-upload' className='cursor-pointer relative'>
+          <img
+            src={image ? URL.createObjectURL(image) : currentUser.profilePicture}
+            alt='Profile'
+            className='w-24 h-24 rounded-full object-cover border-2 border-gray-300'
+          />
+          <input
+            type='file'
+            id='profile-upload'
+            accept='image/*'
+            className='hidden'
+            onChange={handleImageChange}
+          />
+        </label>
+      </div>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <TextInput
           type='text'

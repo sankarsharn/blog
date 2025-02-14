@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     },
     profilePicture: {
             type: String,
-            default: "https://in.pinterest.com/pin/1057712662474908846/"
+            default: "https://www.freepik.com/free-photos-vectors/user"
     },
     isAdmin: {
                 type: Boolean,
